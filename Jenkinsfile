@@ -31,7 +31,5 @@ pipeline{
         sh 'echo Uploaded War file to Artifactory'
       }
     }
-    
-    }
   }
 }
