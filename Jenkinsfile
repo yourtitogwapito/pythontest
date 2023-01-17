@@ -16,8 +16,8 @@ pipeline {
             steps{
             sh label: '', script: '''
 touch dockerfile
-sudo docker build -t omegle_jenkins:$BUILD_NUMBER .
-sudo docker container run -it --name omegle_jenkins$BUILD_NUMBER '''
+docker build -t omegle_jenkins:$BUILD_NUMBER .
+docker container run -it --name omegle_jenkins$BUILD_NUMBER '''
       }
     }
     }
