@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent { dockerfile true }
     stages {
         stage('Checkout') {
             steps {
@@ -7,7 +7,6 @@ pipeline {
                 }
             }
         stage('Build') {
-            agent { dockerfile true }
             steps {
                 sh 'docker build -t omegle_jenkins:$BUILD_NUMBER .'
                 sh 'docker container run -it --name omegle_jenkins$BUILD_NUMBER'
