@@ -13,6 +13,5 @@ pipeline {
                 sh 'docker container run -it --name omegle_jenkins$BUILD_NUMBER'
                 }
             }
-        }
     }
 }
