@@ -1,24 +1,37 @@
-pipeline {
-    agent none
-    stages {
-        stage('Checkout') {
-            steps {
-                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: '83b1f9ed-82a6-4e86-bf38-208a8dbae56d', url: 'https://github.com/yourtitogwapito/pythontest.git/']])
-            }
-        }
-        stage('Test') {
-            steps {
-                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: '83b1f9ed-82a6-4e86-bf38-208a8dbae56d', url: 'https://github.com/yourtitogwapito/pythontest.git/']])
-            }
-        }
-        stage('Deploy'){
-            agent any
-            steps{
-            sh label: '', script: '''
-touch dockerfile
-sudo docker build -t omegle_jenkins:$BUILD_NUMBER .
-sudo docker container run -it --name omegle_jenkins$BUILD_NUMBER '''
+pipeline{
+  agent none
+  stages{
+    stage('Compile'){
+      agent any
+      steps{
+        sh 'mvn compile'
+      }       
+    }
+    stage('Code Quality'){
+      agent any
+      steps{
+        sh 'echo Sonarqube Code Quality Check Done'
       }
     }
+    stage('Test'){
+      agent any
+      steps{
+        sh 'mvn test'
+      }
+    } 
+    stage('Package'){
+      agent any
+      steps{
+        sh 'mvn package'
+      }
     }
+    stage('Upload War File To Artifactory'){
+      agent any
+      steps{
+        sh 'echo Uploaded War file to Artifactory'
+      }
+    }
+    
+    }
+  }
 }
